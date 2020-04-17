@@ -1,0 +1,417 @@
+{
+	"swagger": "2.0",
+	"info": {
+        "title": "Communities API",
+		"description": "Communities API Information",
+		"version": "1.0.0"
+	},
+    "basePath": "/api",
+    "apis": "['./routes/*.js']",
+    "paths": {
+		"/communities/{communityId}": {
+			"get": {
+				"tags": [
+					"Community"
+				],
+                "summary": "Find community by ID",
+                "description": "Returns a single community",
+				"parameters": [
+					{
+						"name": "communityId",
+						"in": "path",
+						"description": "ID of community to return",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "ObjectId"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Community"
+                        } 
+					},
+					"404": {
+						"description": "Error: Community Not Found"
+					},
+					"422": {
+						"description": "Error: Unprocessable Entity"
+					}
+				}
+			}
+        },
+        "/communities/{communityId}/post": {
+			"post": {
+				"tags": [
+					"Community"
+				],
+                "summary": "Add new post to community",
+                "description": "Creates a new post",
+                "consumes": "application/json",
+                "produces": "application/json",
+				"parameters": [
+					{
+						"name": "communityId",
+						"in": "path",
+						"description": "ID of community",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "string"
+						}
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Post object to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref":"#/definitions/PostForm"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        } 
+                    },
+                    "404": {
+                        "description": "Error: Community Not Found"
+                    },
+					"422": {
+						"description": "Error: Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Error: Internal Server Error"
+                    }
+				}
+			}
+        },
+        "/communities/{communityId}/post/{postId}": {
+			"delete": {
+				"tags": [
+					"Community"
+				],
+                "summary": "Delete post from community",
+                "description": "Deletes a post",
+                "produces": "application/json",
+				"parameters": [
+					{
+						"name": "communityId",
+						"in": "path",
+						"description": "ID of community",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "string"
+						}
+                    },
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "description": "ID of post",
+                        "required": true,
+                        "type": "string",
+                        "schema": {
+                            "type":"string"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        } 
+                    },
+                    "404": {
+                        "description": "Error: Post Not Found"
+                    },
+					"422": {
+						"description": "Error: Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Error: Internal Server Error"
+                    }
+				}
+			}
+        },
+        "/post/{postId}/comment": {
+			"post": {
+				"tags": [
+					"Post"
+				],
+                "summary": "Add new comment to post",
+                "description": "Creates a new comment",
+                "consumes": "application/json",
+                "produces": "application/json",
+				"parameters": [
+					{
+						"name": "postId",
+						"in": "path",
+						"description": "ID of post",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "string"
+						}
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Comment object to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref":"#/definitions/CommentForm"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        } 
+                    },
+                    "404": {
+                        "description":"Error: Post Not Found"
+                    },
+					"422": {
+						"description": "Error: Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Error: Internal Server Error"
+                    }
+				}
+			}
+        },
+        "/post/{postId}": {
+			"put": {
+				"tags": [
+					"Post"
+				],
+                "summary": "Update existing post",
+                "description": "Updates an existing post",
+                "consumes": "application/json",
+                "produces": "application/json",
+				"parameters": [
+					{
+						"name": "postId",
+						"in": "path",
+						"description": "ID of post",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "string"
+						}
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Post object to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref":"#/definitions/PostForm"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Post"
+                        } 
+                    },
+                    "404":{
+                        "description":"Error: Post Not Found"
+                    },
+					"422": {
+						"description": "Error: Unprocessable Entity"
+					}
+				}
+			}
+        },
+        "/post/{postId}/comment/{commentId}": {
+			"delete": {
+				"tags": [
+					"Post"
+				],
+                "summary": "Delete comment from post",
+                "description": "Deletes a comment",
+                "produces": "application/json",
+				"parameters": [
+					{
+						"name": "postId",
+						"in": "path",
+						"description": "ID of post",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "string"
+						}
+                    },
+                    {
+                        "name": "commentId",
+                        "in": "path",
+                        "description": "ID of comment",
+                        "required": true,
+                        "type": "string",
+                        "schema": {
+                            "type":"string"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        } 
+                    },
+                    "404": {
+                        "description": "Error: Comment Not Found"
+                    },
+					"422": {
+						"description": "Error: Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Error: Internal Server Error"
+                    }
+				}
+			}
+        },
+        "/comment/{commentId}": {
+			"put": {
+				"tags": [
+					"Comment"
+				],
+                "summary": "Update existing comment",
+                "description": "Updates an existing comment",
+                "consumes": "application/json",
+                "produces": "application/json",
+				"parameters": [
+					{
+						"name": "commentId",
+						"in": "path",
+						"description": "ID of comment",
+                        "required": true,
+                        "type":"string",
+						"schema": {
+							"type": "string"
+						}
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Comment object to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref":"#/definitions/CommentForm"
+                        }
+                    }
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation",
+                        "content": "application/json",
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        } 
+                    },
+                    "404":{
+                        "description":"Error: Comment Not Found"
+                    },
+					"422": {
+						"description": "Error: Unprocessable Entity"
+					}
+				}
+			}
+        }
+    },
+    "definitions": {
+        "Community": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "posts": {
+                    "type": "array",
+                    "items": {
+                        "type":"string"
+                    }
+                }
+            }
+        },
+        "Post": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "type":"string"
+                    }
+                }
+            }
+        },
+        "Comment": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "PostForm": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type":"string"
+                }
+            }
+        },
+        "CommentForm": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type":"string"
+                }
+            }
+        }
+    }
+}
