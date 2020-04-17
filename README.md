@@ -7,6 +7,6 @@ Key Features :
 - Add/Delete/Edit posts.
 - Add/Delete/Edit comments.
 
-### Getting Started
+# Run
 
-node index.js
+`node index.js`
