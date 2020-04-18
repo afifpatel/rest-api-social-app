@@ -6,28 +6,25 @@ const swaggerDocument = require('./swagger.json');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Community = require('./models/community');
+const initDB = require('./db-init');
 
 const port = process.env.port || 3000;
-const swaggerOptions = {
-    swaggerDefinition: {
-        info: {
-            title: 'Communities API',
-            description: 'Communities API Information',
-        },
-        basePath: "/api",
-        servers: ["http://localhost:3000"]
-    },
-    apis: ['./routes/*.js']
-}
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
  
 // set up express app
 const app = express();
 
-// connect to mongodb
-mongoose.connect('mongodb://localhost/communityDB');
 mongoose.Promise = global.Promise;
+// connect to database
+mongoose.connect('mongodb://mongo:27017/communityDB')
+        .then(() => {
+            console.log('connected to database...');
+            // init db
+            initDB();
+        })
+        .catch(err => {
+            console.log('error connecting to the database');
+            process.exit();
+        })
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost: 4000' );

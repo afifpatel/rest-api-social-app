@@ -21,7 +21,6 @@ const communitySchema = new Schema({
     },
     address: {
         type: String,
-        required: [true, 'Address field is required']
     },
     categories:[{
         type: String, 
