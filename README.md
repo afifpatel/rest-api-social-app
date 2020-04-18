@@ -19,7 +19,7 @@ After you have installed both:
 4.  You should see at `localhost:3000/api-docs` swagger docs now.
 5.  You should see at `localhost:3000` app started.
 
-# Without Docker
+# Run without docker
 
 Firstable you need Nodejs and MongoDB installed.
 
